@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "119329643118",
+    "project_id": "novel-manager-5efc1",
+    "storage_bucket": "novel-manager-5efc1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119329643118:android:e53b36d1056ac12463247f",
+        "android_client_info": {
+          "package_name": "com.example.doc_quan_ly_tieu_thuyet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3yc86p7ElEbyG1ZC6X3gGSNs_Vv6ByiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119329643118:android:422736b0362a25b263247f",
+        "android_client_info": {
+          "package_name": "com.example.novel_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3yc86p7ElEbyG1ZC6X3gGSNs_Vv6ByiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119329643118:android:3e48178045fb128463247f",
+        "android_client_info": {
+          "package_name": "com.example.novel_reader"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3yc86p7ElEbyG1ZC6X3gGSNs_Vv6ByiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
