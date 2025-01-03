@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doc_quan_ly_tieu_thuyet/models/novel.dart';
-import '../models/favorite.dart';
+import 'package:doc_quan_ly_tieu_thuyet/models/favorite.dart';
+import 'package:doc_quan_ly_tieu_thuyet/models/chapter.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // Thêm yêu thích
   Future<void> addFavorite(String userId, String novelId) async {
     final favorite = Favorite(
       novelId: novelId,
@@ -19,7 +21,7 @@ class FirestoreService {
     }
   }
 
-   // Thêm tiểu thuyết mới
+  // Thêm tiểu thuyết mới
   Future<void> addNovel(Novel novel) async {
     try {
       final novelData = {
@@ -27,11 +29,14 @@ class FirestoreService {
         'author': novel.author,
         'views': novel.views,
         'coverImage': novel.coverImage,
-        'chapters': novel.chapters.map((chapter) => {
-          'id': chapter.id,
-          'title': chapter.title,
-          'content': chapter.content
-        }).toList(),
+        'uid': novel.uid, // Thêm trường uid
+        'chapters': novel.chapters
+            .map((chapter) => {
+                  'id': chapter.id,
+                  'title': chapter.title,
+                  'content': chapter.content,
+                })
+            .toList(),
       };
 
       await _firestore.collection('novels').add(novelData);
@@ -43,21 +48,30 @@ class FirestoreService {
   // Cập nhật thông tin tiểu thuyết
   Future<void> updateNovel(Novel novel) async {
     try {
-      final novelData = {
+      // Kiểm tra xem ID có hợp lệ không
+      if (novel.id == null || novel.id!.isEmpty) {
+        throw Exception('ID tiểu thuyết không hợp lệ');
+      }
+
+      // Cập nhật tài liệu trong Firestore
+      await _firestore.collection('novels').doc(novel.id).update({
         'title': novel.title,
         'author': novel.author,
-        'views': novel.views,
         'coverImage': novel.coverImage,
-        'chapters': novel.chapters.map((chapter) => {
-          'id': chapter.id,
-          'title': chapter.title,
-          'content': chapter.content
-        }).toList(),
-      };
+        'views': novel.views,
+        'chapters': novel.chapters
+            .map((chapter) => {
+                  'id': chapter.id,
+                  'title': chapter.title,
+                  'content': chapter.content,
+                })
+            .toList(),
+      });
 
-      await _firestore.collection('novels').doc(novel.id).update(novelData);
-    } catch (error) {
-      print("Lỗi khi cập nhật tiểu thuyết: $error");
+      print('Cập nhật thành công');
+    } catch (e) {
+      print('Lỗi khi cập nhật tiểu thuyết: $e');
+      rethrow; // Để có thể bắt lỗi ở nơi gọi phương thức
     }
   }
 
@@ -82,6 +96,7 @@ class FirestoreService {
           views: novelData['views'],
           coverImage: novelData['coverImage'],
           chapters: chapters,
+          uid: novelData['uid'], // Đọc uid từ Firestore
         );
       }).toList();
     } catch (error) {
@@ -111,6 +126,7 @@ class FirestoreService {
           author: novelData['author'],
           views: novelData['views'],
           coverImage: novelData['coverImage'],
+          uid: novelData['uid'], // Đọc uid từ Firestore
           chapters: chapters,
         );
       } else {
@@ -122,6 +138,22 @@ class FirestoreService {
     }
   }
 
+  // Xóa tiểu thuyết
+  Future<void> removeNovel(String novelId) async {
+  if (novelId == null || novelId.isEmpty) {
+    throw Exception('ID tiểu thuyết không hợp lệ');
+  }
+  try {
+    await _firestore.collection('novels').doc(novelId).delete();
+    print('Xóa thành công');
+  } catch (e) {
+    print('Lỗi khi xóa tiểu thuyết: $e');
+    rethrow;
+  }
+}
+
+
+  // Xóa yêu thích
   Future<void> removeFavorite(String userId, String novelId) async {
     try {
       final snapshot = await _firestore
@@ -138,6 +170,7 @@ class FirestoreService {
     }
   }
 
+  // Lấy danh sách yêu thích của người dùng
   Future<List<Favorite>> getUserFavorites(String userId) async {
     try {
       final snapshot = await _firestore
@@ -145,9 +178,7 @@ class FirestoreService {
           .where('userId', isEqualTo: userId)
           .get();
 
-      return snapshot.docs
-          .map((doc) => Favorite.fromJson(doc.data()))
-          .toList();
+      return snapshot.docs.map((doc) => Favorite.fromJson(doc.data())).toList();
     } catch (error) {
       print("Lỗi khi lấy danh sách yêu thích: $error");
       return [];

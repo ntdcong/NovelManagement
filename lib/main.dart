@@ -1,4 +1,5 @@
 import 'package:doc_quan_ly_tieu_thuyet/screens/auth_screen.dart';
+import 'package:doc_quan_ly_tieu_thuyet/screens/manage_novels_page.dart';
 import 'package:doc_quan_ly_tieu_thuyet/screens/novel_list_screen.dart';
 import 'package:doc_quan_ly_tieu_thuyet/screens/profile_screen.dart'; // Màn hình hồ sơ
 import 'package:doc_quan_ly_tieu_thuyet/screens/favorite_screen.dart'; // Màn hình yêu thích
@@ -61,9 +62,38 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final List<Widget> _screens = [
     NovelListScreen(),
     ProfileScreen(),
-    FavoriteScreen(userId: '',),
+    FavoriteScreen(userId: ''),
     WriteNovelScreen(),
+    ManageNovelsPage(),
   ];
+
+  // Hiển thị hộp thoại xác nhận đăng xuất
+  Future<void> _confirmLogout() async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Xác nhận đăng xuất'),
+          content: Text('Bạn có chắc chắn muốn đăng xuất không?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng hộp thoại
+              },
+              child: Text('Hủy', style: TextStyle(color: Colors.grey)),
+            ),
+            TextButton(
+              onPressed: () {
+                _logout(); // Thực hiện đăng xuất
+                Navigator.of(context).pop(); // Đóng hộp thoại
+              },
+              child: Text('Đồng ý', style: TextStyle(color: Colors.deepPurple)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   // Thực hiện đăng xuất
   Future<void> _logout() async {
@@ -89,41 +119,71 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         backgroundColor: Colors.deepPurple, // Màu AppBar đẹp hơn
         title: Text(
           'NOVEL CTH',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24), // Cải thiện font chữ
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white, // Chữ màu trắng
+          ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: _logout, // Đăng xuất khi nhấn nút
+            icon: Icon(Icons.exit_to_app, color: Colors.white), // Icon màu trắng
+            onPressed: _confirmLogout, // Hiển thị hộp thoại xác nhận đăng xuất
           ),
         ],
       ),
-      body: _screens[_selectedIndex], // Hiển thị màn hình đã chọn
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.deepPurple[50], // Màu nền BottomNav
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.deepPurple, // Màu của tab đang được chọn
-        unselectedItemColor: Colors.grey, // Màu của các tab chưa được chọn
-        showUnselectedLabels: false, // Ẩn nhãn khi không chọn
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'Tiểu Thuyết',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Hồ Sơ',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Yêu Thích',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.publish_rounded),
-            label: 'Viết Truyện',
-          ),
-        ],
+      body: AnimatedSwitcher(
+        duration: Duration(milliseconds: 300), // Thời gian chuyển đổi
+        child: _screens[_selectedIndex],
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.deepPurple.withOpacity(0.2),
+              blurRadius: 10,
+              offset: Offset(0, -5),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white, // Màu nền BottomNav
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          selectedItemColor: Colors.deepPurple, // Màu của tab đang được chọn
+          unselectedItemColor: Colors.grey, // Màu của các tab chưa được chọn
+          showUnselectedLabels: true, // Hiển thị nhãn cho tất cả các tab
+          type: BottomNavigationBarType.fixed, // Cố định chiều cao của BottomNav
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold), // Nhãn được chọn in đậm
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.book),
+              label: 'Tiểu Thuyết',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: 'Hồ Sơ',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Yêu Thích',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.publish_rounded),
+              label: 'Viết Truyện',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.edit),
+              label: 'Quản Lý Truyện',
+            ),
+          ],
+        ),
       ),
     );
   }

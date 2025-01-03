@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/novel.dart';
+import '../models/chapter.dart';
 
 class ChapterInputScreen extends StatefulWidget {
   @override

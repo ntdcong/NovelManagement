@@ -19,6 +19,7 @@ class Favorite {
 
   Map<String, dynamic> toJson() {
     return {
+      
       'novelId': novelId,
       'userId': userId,
       'addedDate': addedDate.toIso8601String(),
