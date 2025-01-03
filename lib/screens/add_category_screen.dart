@@ -18,7 +18,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thêm danh mục mới'),
+        title: const Text('Thêm danh mục mới'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,7 +28,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Tên danh mục'),
+                decoration: const InputDecoration(labelText: 'Tên danh mục'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Vui lòng nhập tên danh mục';
@@ -38,7 +38,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Mô tả'),
+                decoration: const InputDecoration(labelText: 'Mô tả'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Vui lòng nhập mô tả';
@@ -46,7 +46,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -58,12 +58,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
 
                     await _categoryService.addCategory(category);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Đã thêm danh mục thành công')),
+                      const SnackBar(content: Text('Đã thêm danh mục thành công')),
                     );
                     Navigator.pop(context);
                   }
                 },
-                child: Text('Thêm danh mục'),
+                child: const Text('Thêm danh mục'),
               ),
             ],
           ),

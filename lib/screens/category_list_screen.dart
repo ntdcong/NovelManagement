@@ -11,13 +11,13 @@ class CategoryListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh sách danh mục'),
+        title: const Text('Danh sách danh mục'),
       ),
       body: FutureBuilder<List<Category>>(
         future: _categoryService.getCategories(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -25,7 +25,7 @@ class CategoryListScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('Không có danh mục nào.'));
+            return const Center(child: Text('Không có danh mục nào.'));
           }
 
           final categories = snapshot.data!;
@@ -38,11 +38,11 @@ class CategoryListScreen extends StatelessWidget {
                 title: Text(category.name),
                 subtitle: Text(category.description),
                 trailing: IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
+                  icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () async {
                     await _categoryService.deleteCategory(category.id!);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Đã xóa danh mục')),
+                      const SnackBar(content: Text('Đã xóa danh mục')),
                     );
                   },
                 ),
@@ -59,7 +59,7 @@ class CategoryListScreen extends StatelessWidget {
             MaterialPageRoute(builder: (context) => AddCategoryScreen()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

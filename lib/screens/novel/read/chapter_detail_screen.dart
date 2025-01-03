@@ -44,11 +44,11 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text('Cài đặt hiển thị'),
+              title: const Text('Cài đặt hiển thị'),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Kích thước chữ'),
+                  const Text('Kích thước chữ'),
                   Slider(
                     value: _fontSize,
                     min: 12.0,
@@ -67,7 +67,7 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
               ),
               actions: [
                 TextButton(
-                  child: Text('Đóng'),
+                  child: const Text('Đóng'),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
@@ -84,20 +84,20 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           'Chương ${widget.chapterIndex + 1}',
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: _showSettingsDialog,
           ),
           IconButton(
-            icon: Icon(Icons.list),
+            icon: const Icon(Icons.list),
             onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
           ),
         ],
@@ -106,7 +106,7 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
                   'Danh sách chương',
@@ -144,7 +144,7 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
           Expanded(
             child: SingleChildScrollView(
               controller: _scrollController,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -155,7 +155,7 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     widget.chapter.content,
                     style: TextStyle(
@@ -169,10 +169,10 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
           ),
           SafeArea(
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 4,
@@ -184,17 +184,17 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back_ios),
+                    icon: const Icon(Icons.arrow_back_ios),
                     onPressed: widget.chapterIndex > 0
                         ? () => _navigateToChapter(widget.chapterIndex - 1)
                         : null,
                   ),
                   Text(
                     '${widget.chapterIndex + 1}/${widget.chapters.length}',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   IconButton(
-                    icon: Icon(Icons.arrow_forward_ios),
+                    icon: const Icon(Icons.arrow_forward_ios),
                     onPressed: widget.chapterIndex < widget.chapters.length - 1
                         ? () => _navigateToChapter(widget.chapterIndex + 1)
                         : null,

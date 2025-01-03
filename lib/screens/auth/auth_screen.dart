@@ -24,7 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (!_isLogin && _passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Mật khẩu xác nhận không khớp')),
+        const SnackBar(content: Text('Mật khẩu xác nhận không khớp')),
       );
       return;
     }
@@ -67,25 +67,27 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isLogin ? 'Đăng Nhập' : 'Đăng Ký'),
+        title: Text(_isLogin ? 'Novel CTH - Đăng Nhập' : 'Novel CTH - Đăng Ký'),
         backgroundColor: Colors.deepPurple,
+        titleTextStyle: const TextStyle(fontSize: 20, color: Colors.white),
+        centerTitle: true,
         elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Biểu tượng sách
-                Icon(
+                const Icon(
                   Icons.menu_book, // Biểu tượng sách
                   size: 100,
                   color: Colors.deepPurple,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Trường nhập email
                 TextFormField(
                   controller: _emailController,
@@ -94,7 +96,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.email),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -104,7 +106,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Trường nhập mật khẩu
                 TextFormField(
                   controller: _passwordController,
@@ -113,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword ? Icons.visibility : Icons.visibility_off,
@@ -133,7 +135,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     return null;
                   },
                 ),
-                if (!_isLogin) SizedBox(height: 16),
+                if (!_isLogin) const SizedBox(height: 16),
                 if (!_isLogin)
                   // Trường nhập xác nhận mật khẩu
                   TextFormField(
@@ -143,7 +145,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
@@ -166,25 +168,25 @@ class _AuthScreenState extends State<AuthScreen> {
                       return null;
                     },
                   ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Nút đăng nhập/đăng ký
                 ElevatedButton(
                   onPressed: _isLoading ? null : _submit,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
-                    padding: EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: _isLoading
-                      ? CircularProgressIndicator(color: Colors.white)
+                      ? const CircularProgressIndicator(color: Colors.white)
                       : Text(
                           _isLogin ? 'Đăng Nhập' : 'Đăng Ký',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          style: const TextStyle(fontSize: 16, color: Colors.white),
                         ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Nút chuyển đổi giữa đăng nhập và đăng ký
                 TextButton(
                   onPressed: () {
@@ -196,7 +198,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     _isLogin
                         ? 'Chưa có tài khoản? Đăng ký ngay'
                         : 'Đã có tài khoản? Đăng nhập ngay',
-                    style: TextStyle(color: Colors.deepPurple),
+                    style: const TextStyle(color: Colors.deepPurple),
                   ),
                 ),
               ],

@@ -86,13 +86,13 @@ class _FavoriteScreenState extends State<FavoriteNovelsScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : favoriteNovels.isEmpty
-              ? Center(
+              ? const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.favorite_border, size: 64, color: Colors.grey),
-                      const SizedBox(height: 16),
-                      const Text(
+                      Icon(Icons.favorite_border, size: 64, color: Colors.grey),
+                      SizedBox(height: 16),
+                      Text(
                         'Chưa có tiểu thuyết yêu thích nào',
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),

@@ -61,16 +61,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_user == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Hồ Sơ', style: TextStyle(color: Colors.white)),
+          title: const Text('Hồ Sơ', style: TextStyle(color: Colors.white)),
           backgroundColor: Colors.deepPurple,
         ),
-        body: Center(child: CircularProgressIndicator()),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hồ Sơ', style: TextStyle(color: Colors.white)),
+        title: const Text('Hồ Sơ', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
       ),
       body: SingleChildScrollView(
@@ -84,41 +84,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: Container(
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
                     color: Colors.deepPurple,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.edit, color: Colors.white, size: 20),
+                  child: const Icon(Icons.edit, color: Colors.white, size: 20),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               _user!.name,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               _user!.email,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildInfoCard('Thông tin cá nhân', Icons.person, [
               _buildInfoItem('Tên', _user!.name),
               _buildInfoItem('Email', _user!.email),
             ]),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => _showEditDialog(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Chỉnh sửa thông tin',
                 style: TextStyle(
                   fontSize: 16,
@@ -147,14 +147,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Row(
               children: [
                 Icon(icon, color: Colors.deepPurple),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
                   title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             ...children,
           ],
         ),
@@ -169,11 +169,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Text(
             '$label: ',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ],
       ),
@@ -192,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Chỉnh sửa thông tin',
+          title: const Text('Chỉnh sửa thông tin',
               style: TextStyle(color: Colors.deepPurple)),
           content: SingleChildScrollView(
             child: Column(
@@ -207,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -217,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 TextField(
                   controller: avatarUrlController,
                   decoration: InputDecoration(
@@ -235,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Hủy', style: TextStyle(color: Colors.deepPurple)),
+              child: const Text('Hủy', style: TextStyle(color: Colors.deepPurple)),
             ),
             ElevatedButton(
               onPressed: () {
@@ -252,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text('Lưu', style: TextStyle(color: Colors.white)),
+              child: const Text('Lưu', style: TextStyle(color: Colors.white)),
             ),
           ],
         );

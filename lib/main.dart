@@ -37,7 +37,7 @@ class AuthCheck extends StatelessWidget {
       stream: _auth.authStateChanges(), // Kiểm tra trạng thái đăng nhập
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasData) {
           return BottomNavScreen(); // Nếu đã đăng nhập, chuyển đến màn hình chính
@@ -50,19 +50,32 @@ class AuthCheck extends StatelessWidget {
 }
 
 class BottomNavScreen extends StatefulWidget {
+  final int initialIndex;
+
+  const BottomNavScreen({
+    Key? key,
+    this.initialIndex = 0,
+  }) : super(key: key);
+
   @override
   _BottomNavScreenState createState() => _BottomNavScreenState();
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Danh sách các màn hình của ứng dụng
   final List<Widget> _screens = [
     NovelListScreen(),
     WriteNovelScreen(),
-    ManageNovelsPage(),
+    const ManageNovelsPage(),
     FavoriteNovelsScreen(userId: FirebaseAuth.instance.currentUser!.uid),
     ProfileScreen(),
   ];
@@ -73,21 +86,22 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Xác nhận đăng xuất'),
-          content: Text('Bạn có chắc chắn muốn đăng xuất không?'),
+          title: const Text('Xác nhận đăng xuất'),
+          content: const Text('Bạn có chắc chắn muốn đăng xuất không?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Đóng hộp thoại
               },
-              child: Text('Hủy', style: TextStyle(color: Colors.grey)),
+              child: const Text('Hủy', style: TextStyle(color: Colors.grey)),
             ),
             TextButton(
               onPressed: () {
                 _logout(); // Thực hiện đăng xuất
                 Navigator.of(context).pop(); // Đóng hộp thoại
               },
-              child: Text('Đồng ý', style: TextStyle(color: Colors.deepPurple)),
+              child: const Text('Đồng ý',
+                  style: TextStyle(color: Colors.deepPurple)),
             ),
           ],
         );
@@ -118,7 +132,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       appBar: AppBar(
         elevation: 4, // Thêm độ nổi cho app bar
         backgroundColor: Colors.deepPurple, // Màu AppBar đẹp hơn
-        title: Text(
+        title: const Text(
           'NOVEL CTH',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -128,14 +142,14 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         ),
         actions: [
           IconButton(
-            icon:
-                Icon(Icons.exit_to_app, color: Colors.white), // Icon màu trắng
+            icon: const Icon(Icons.exit_to_app,
+                color: Colors.white), // Icon màu trắng
             onPressed: _confirmLogout, // Hiển thị hộp thoại xác nhận đăng xuất
           ),
         ],
       ),
       body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 300), // Thời gian chuyển đổi
+        duration: const Duration(milliseconds: 300), // Thời gian chuyển đổi
         child: _screens[_selectedIndex],
         transitionBuilder: (Widget child, Animation<double> animation) {
           return FadeTransition(
@@ -150,7 +164,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             BoxShadow(
               color: Colors.deepPurple.withOpacity(0.2),
               blurRadius: 10,
-              offset: Offset(0, -5),
+              offset: const Offset(0, -5),
             ),
           ],
         ),
@@ -163,8 +177,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           showUnselectedLabels: true, // Hiển thị nhãn cho tất cả các tab
           type:
               BottomNavigationBarType.fixed, // Cố định chiều cao của BottomNav
-          selectedLabelStyle:
-              TextStyle(fontWeight: FontWeight.bold), // Nhãn được chọn in đậm
+          selectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.bold), // Nhãn được chọn in đậm
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
@@ -174,11 +188,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               icon: Icon(Icons.publish_rounded),
               label: 'Viết Truyện',
             ),
-                        BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.edit),
               label: 'Quản Lý Truyện',
             ),
-                        BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
               label: 'Yêu Thích',
             ),

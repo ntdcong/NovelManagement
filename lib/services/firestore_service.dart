@@ -51,7 +51,7 @@ class FirestoreService {
   // Cập nhật thông tin tiểu thuyết
   Future<void> updateNovel(Novel novel) async {
     try {
-      if (novel.id == null || novel.id!.isEmpty) {
+      if (novel.id.isEmpty) {
         throw Exception('ID tiểu thuyết không hợp lệ');
       }
 

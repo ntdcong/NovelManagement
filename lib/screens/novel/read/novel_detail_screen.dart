@@ -123,14 +123,13 @@ class _NovelDetailScreenState extends State<NovelDetailScreen> {
     );
   }
 
-  // Xây dựng AppBar với icon yêu thích
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: Text(
         widget.novel.title,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 20,
+          fontSize: 20, color: Colors.white
         ),
       ),
       elevation: 0,

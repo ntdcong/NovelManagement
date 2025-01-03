@@ -8,7 +8,7 @@ import '../../../../../services/category_service.dart';
 class EditCategoryScreen extends StatefulWidget {
   final Novel novel;
 
-  EditCategoryScreen({required this.novel});
+  const EditCategoryScreen({required this.novel});
 
   @override
   _EditCategoryScreenState createState() => _EditCategoryScreenState();
@@ -37,10 +37,10 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chỉnh sửa danh mục'),
+        title: const Text('Chỉnh sửa danh mục'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () async {
               await FirebaseFirestore.instance
                   .collection('novels')
@@ -52,13 +52,13 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
-          Text(
+          const Text(
             'Chọn danh mục:',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ..._allCategories.map((category) {
             return CheckboxListTile(
               title: Text(category.name),
@@ -73,7 +73,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                 });
               },
             );
-          }).toList(),
+          }),
         ],
       ),
     );
