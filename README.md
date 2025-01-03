@@ -1,16 +1,11 @@
-# doc_quan_ly_tieu_thuyet
+Đây là đồ án môn học **Lập trình trên thiết bị di động**, thực hiện bởi **Nhóm ABC**. Mục tiêu của đồ án là xây dựng một ứng dụng di động với các tính năng theo yêu cầu của môn học.  
 
-A new Flutter project.
+## Thành viên nhóm
+1. **Nguyễn Thành Tiến** - 2180609389
+2. **Phạm Lê Gia Hân** - 2180609353
+3. **Nguyễn Thành Duy Công** - 2180609349
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Công nghệ sử dụng
+- **Ngôn ngữ lập trình**: Dart  
+- **Framework**: Flutter  
+- **Cơ sở dữ liệu**: Firebase
