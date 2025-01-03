@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/novel.dart';
-import '../models/chapter.dart';
+import '../.././../models/chapter.dart';
 
 class ChapterDetailScreen extends StatefulWidget {
   final Chapter chapter;

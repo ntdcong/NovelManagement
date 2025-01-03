@@ -1,5 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'chapter.dart';
+import 'package:doc_quan_ly_tieu_thuyet/models/chapter.dart';
 
 class Novel {
   final String id;
@@ -9,6 +8,7 @@ class Novel {
   final int views;
   final String coverImage;
   final List<Chapter> chapters;
+  final List<String> categories; // Thêm trường categories
 
   Novel({
     required this.id,
@@ -18,6 +18,7 @@ class Novel {
     required this.views,
     required this.coverImage,
     required this.chapters,
+    required this.categories, // Thêm vào constructor
   });
 
   // Chuyển đổi đối tượng Novel thành Map để lưu vào Firestore
@@ -30,6 +31,7 @@ class Novel {
       'views': views,
       'coverImage': coverImage,
       'chapters': chapters.map((chapter) => chapter.toMap()).toList(),
+      'categories': categories, // Thêm vào map
     };
   }
 
@@ -45,6 +47,9 @@ class Novel {
       chapters: (data['chapters'] as List<dynamic>? ?? [])
           .map((chapterData) => Chapter.fromMap(chapterData))
           .toList(),
+      categories: (data['categories'] as List<dynamic>? ?? [])
+          .map((category) => category.toString())
+          .toList(), // Thêm vào factory
     );
   }
 }

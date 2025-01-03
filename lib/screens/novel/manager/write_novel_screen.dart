@@ -1,12 +1,12 @@
-import 'package:doc_quan_ly_tieu_thuyet/models/user.dart' as local_user;
-import 'package:doc_quan_ly_tieu_thuyet/screens/edit_novel_screen.dart';
-import 'package:doc_quan_ly_tieu_thuyet/screens/manage_novels_page.dart';
+import 'package:doc_quan_ly_tieu_thuyet/screens/novel/manager/manage_novels_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../models/novel.dart';
-import '../services/firestore_service.dart';
+import '../../../models/novel.dart';
+import '../../../../../services/firestore_service.dart';
 import 'chapter_input_screen.dart';
-import '../models/chapter.dart';
+import '../../../../../models/chapter.dart';
+import '../../../../../models/category.dart'; // Import model Category
+import '../../../../../services/category_service.dart'; // Import CategoryService
 
 class WriteNovelScreen extends StatefulWidget {
   @override
@@ -19,6 +19,23 @@ class _WriteNovelScreenState extends State<WriteNovelScreen> {
   final TextEditingController _coverImageController = TextEditingController();
   final List<Chapter> _chapters = [];
   final FirestoreService _firestoreService = FirestoreService();
+  final CategoryService _categoryService = CategoryService();
+  List<Category> _categories = []; // Danh sách các danh mục
+  List<String> _selectedCategories = []; // Danh sách các danh mục đã chọn
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories(); // Tải danh sách danh mục khi khởi tạo
+  }
+
+  // Tải danh sách danh mục từ Firestore
+  Future<void> _loadCategories() async {
+    final categories = await _categoryService.getCategories();
+    setState(() {
+      _categories = categories;
+    });
+  }
 
   void _addChapter() async {
     final chapter = await Navigator.push(
@@ -36,11 +53,17 @@ class _WriteNovelScreenState extends State<WriteNovelScreen> {
   }
 
   Future<void> _publishNovel() async {
-    final User? user =
-        FirebaseAuth.instance.currentUser; // Lấy thông tin người dùng
+    final User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Bạn cần đăng nhập để đăng tiểu thuyết.')),
+      );
+      return;
+    }
+
+    if (_selectedCategories.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Vui lòng chọn ít nhất một danh mục.')),
       );
       return;
     }
@@ -52,12 +75,13 @@ class _WriteNovelScreenState extends State<WriteNovelScreen> {
       views: 0,
       coverImage: _coverImageController.text,
       chapters: _chapters,
-      uid: user.uid, // Lưu UID của người viết
+      uid: user.uid,
+      categories: _selectedCategories, // Thêm danh sách danh mục đã chọn
     );
 
     await _firestoreService.addNovel(novel);
 
-    // Chuyển đến màn hình EditNovelScreen
+    // Chuyển đến màn hình quản lý tiểu thuyết
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -87,6 +111,43 @@ class _WriteNovelScreenState extends State<WriteNovelScreen> {
             TextField(
               controller: _coverImageController,
               decoration: InputDecoration(labelText: 'URL ảnh bìa'),
+            ),
+            SizedBox(height: 20),
+            // Dropdown để chọn danh mục
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(labelText: 'Chọn danh mục'),
+              items: _categories.map((category) {
+                return DropdownMenuItem<String>(
+                  value: category.id,
+                  child: Text(category.name),
+                );
+              }).toList(),
+              onChanged: (value) {
+                if (value != null && !_selectedCategories.contains(value)) {
+                  setState(() {
+                    _selectedCategories.add(value);
+                  });
+                }
+              },
+            ),
+            SizedBox(height: 10),
+            // Hiển thị danh sách danh mục đã chọn
+            Wrap(
+              spacing: 8.0,
+              children: _selectedCategories.map((categoryId) {
+                final category = _categories.firstWhere(
+                  (cat) => cat.id == categoryId,
+                  orElse: () => Category(id: '', name: '', description: '', createdAt: DateTime.now()),
+                );
+                return Chip(
+                  label: Text(category.name),
+                  onDeleted: () {
+                    setState(() {
+                      _selectedCategories.remove(categoryId);
+                    });
+                  },
+                );
+              }).toList(),
             ),
             SizedBox(height: 20),
             ElevatedButton(

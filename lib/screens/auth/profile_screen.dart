@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import '../models/user.dart';
+import '../../models/user.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override

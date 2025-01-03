@@ -1,9 +1,9 @@
-import 'package:doc_quan_ly_tieu_thuyet/screens/auth_screen.dart';
-import 'package:doc_quan_ly_tieu_thuyet/screens/manage_novels_page.dart';
-import 'package:doc_quan_ly_tieu_thuyet/screens/novel_list_screen.dart';
-import 'package:doc_quan_ly_tieu_thuyet/screens/profile_screen.dart'; // Màn hình hồ sơ
-import 'package:doc_quan_ly_tieu_thuyet/screens/favorite_screen.dart'; // Màn hình yêu thích
-import 'package:doc_quan_ly_tieu_thuyet/screens/write_novel_screen.dart';
+import 'package:doc_quan_ly_tieu_thuyet/screens/auth/auth_screen.dart';
+import 'package:doc_quan_ly_tieu_thuyet/screens/novel/manager/favorite_novels_screen.dart';
+import 'package:doc_quan_ly_tieu_thuyet/screens/novel/manager/manage_novels_page.dart';
+import 'package:doc_quan_ly_tieu_thuyet/screens/novel/read/novel_list_screen.dart';
+import 'package:doc_quan_ly_tieu_thuyet/screens/auth/profile_screen.dart'; // Màn hình hồ sơ// Màn hình yêu thích
+import 'package:doc_quan_ly_tieu_thuyet/screens/novel/manager/write_novel_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Thêm FirebaseAuth
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -61,10 +61,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   // Danh sách các màn hình của ứng dụng
   final List<Widget> _screens = [
     NovelListScreen(),
-    ProfileScreen(),
-    FavoriteScreen(userId: ''),
     WriteNovelScreen(),
     ManageNovelsPage(),
+    FavoriteNovelsScreen(userId: FirebaseAuth.instance.currentUser!.uid),
+    ProfileScreen(),
   ];
 
   // Hiển thị hộp thoại xác nhận đăng xuất
@@ -100,7 +100,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     await _auth.signOut(); // Đăng xuất Firebase
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => AuthScreen()), // Chuyển về màn hình đăng nhập
+      MaterialPageRoute(
+          builder: (context) => AuthScreen()), // Chuyển về màn hình đăng nhập
     );
   }
 
@@ -127,7 +128,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app, color: Colors.white), // Icon màu trắng
+            icon:
+                Icon(Icons.exit_to_app, color: Colors.white), // Icon màu trắng
             onPressed: _confirmLogout, // Hiển thị hộp thoại xác nhận đăng xuất
           ),
         ],
@@ -159,28 +161,30 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           selectedItemColor: Colors.deepPurple, // Màu của tab đang được chọn
           unselectedItemColor: Colors.grey, // Màu của các tab chưa được chọn
           showUnselectedLabels: true, // Hiển thị nhãn cho tất cả các tab
-          type: BottomNavigationBarType.fixed, // Cố định chiều cao của BottomNav
-          selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold), // Nhãn được chọn in đậm
+          type:
+              BottomNavigationBarType.fixed, // Cố định chiều cao của BottomNav
+          selectedLabelStyle:
+              TextStyle(fontWeight: FontWeight.bold), // Nhãn được chọn in đậm
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
               label: 'Tiểu Thuyết',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: 'Hồ Sơ',
+              icon: Icon(Icons.publish_rounded),
+              label: 'Viết Truyện',
             ),
-            BottomNavigationBarItem(
+                        BottomNavigationBarItem(
+              icon: Icon(Icons.edit),
+              label: 'Quản Lý Truyện',
+            ),
+                        BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
               label: 'Yêu Thích',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.publish_rounded),
-              label: 'Viết Truyện',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.edit),
-              label: 'Quản Lý Truyện',
+              icon: Icon(Icons.account_circle),
+              label: 'Hồ Sơ',
             ),
           ],
         ),
